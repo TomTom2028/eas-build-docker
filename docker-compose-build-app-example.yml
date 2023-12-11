@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  frontend:
+    image: .
+    env_file: ENV_FILE_HERE
+    volumes:
+      - ./:/app
+      - ./out_dir:/out
+    working_dir: /app/frontend
+    command:
+      [
+        "eas",
+        "build",
+        "--platform",
+        "android",
+        "--profile",
+        "development",
+        "--local",
+      ]

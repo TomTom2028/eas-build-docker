@@ -1,5 +1,5 @@
 version: "3.9"
 services:
   eas-build-docker:
-    image: douchemonitor2223/eas-build:1.0
+    image: eas-build:1.0
     build: .
