@@ -1,0 +1,19 @@
+stages:
+  - build
+
+build:
+  image: docker:20.10.16
+  stage: build
+  variables:
+    GITLAB_IMG_BASE: $CI_REGISTRY_IMAGE/eas-build
+    GITLAB_IMG_NAME: $GITLAB_IMG_BASE:$CI_COMMIT_SHA
+    GITLAB_LATEST_NAME: $GITLAB_IMG_BASE:latest
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker build --pull -t $GITLAB_IMG_NAME .
+    - docker push $GITLAB_IMG_NAME
+    - docker tag $GITLAB_IMG_NAME $GITLAB_LATEST_NAME
+    - docker push $GITLAB_LATEST_NAME
